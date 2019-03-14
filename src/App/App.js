@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import './App.css';
 import Welcome from './WelcomeMessage'
 import AppLayout from './AppLayout';
-import styled,{css} from 'styled-components';
+import AppBar from './AppBar';
+
+
 
 class App extends Component {
   render() {
     return (
       <AppLayout>
+        <AppBar/>
         <Welcome name={"Bitcoin"}/>
       </AppLayout>
       
