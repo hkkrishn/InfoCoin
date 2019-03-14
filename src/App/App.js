@@ -3,6 +3,7 @@ import './App.css';
 import Welcome from './WelcomeMessage'
 import AppLayout from './AppLayout';
 import AppBar from './AppBar';
+import AppProvider from './AppProvider';
 
 
 
@@ -10,8 +11,10 @@ class App extends Component {
   render() {
     return (
       <AppLayout>
-        <AppBar/>
-        <Welcome name={"Bitcoin"}/>
+        <AppProvider>
+          <AppBar/>
+          <Welcome name={"Bitcoin"}/>
+        </AppProvider>
       </AppLayout>
       
       
