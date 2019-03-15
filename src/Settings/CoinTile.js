@@ -7,7 +7,7 @@ import CoinImage from '../Shared/CoinImage';
 
 export default function({coinKey, topSection}){
   return <AppContext.Consumer>
-    {({coinList, addCoin, removeCoin, isInFavourites}) => {
+    {({coinList, addCoin, removeCoin, isInFavourites,isEmpty}) => {
       let coin = coinList[coinKey];
 
       let TileClass = SelectableTile;

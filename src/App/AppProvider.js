@@ -16,6 +16,7 @@ class AppProvider extends Component {
       addCoin:this.addCoin,
       removeCoin:this.removeCoin,
       isInFavourites:this.isInFavourites,
+      isEmpty:true,
       confirmFavourites:this.confirmFavourites,
 
 
@@ -32,7 +33,8 @@ class AppProvider extends Component {
      let favourites = [...this.state.favourites]
      if(favourites.length< MAX_FAVOURITES){
        favourites.push(key);
-       this.setState({favourites});
+       this.setState({favourites,isEmpty:false});
+       
      }
 
    }
@@ -49,6 +51,14 @@ class AppProvider extends Component {
   //    _.includes(this.state.favourites,key)
   //  }
    isInFavourites = key => _.includes(this.state.favourites, key)
+
+  //  isEmpty = () =>{
+  //    if(this.state.favourites.length === 0){
+  //      return true;
+  //    }else{
+  //      return false;
+  //    }
+  //  };
 
   confirmFavourites = ()=>{
    this.setState({
