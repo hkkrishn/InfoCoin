@@ -1,5 +1,6 @@
 import React from 'react'
 import WelcomeMessage from './WelcomeMessage';
+import ByeMessage from './ByeMessage';
 import ConfirmButton from './ConfirmButton';
 import CoinGrid from './CoinGrid';
 import Page from '../Shared/Page';
@@ -12,6 +13,7 @@ export default function() {
       <CoinGrid topSection/>
       <ConfirmButton/>
       <CoinGrid/>
+      <ByeMessage/>
     </Page>
   
 }
