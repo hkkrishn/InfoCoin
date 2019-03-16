@@ -23,11 +23,34 @@ class AppProvider extends Component {
   }
   componentDidMount=()=>{
     this.fetchCoins();
+    this.fetchPrices();
   }
    fetchCoins = async () =>{
      let coinList = (await cc.coinList()).Data;
      this.setState({coinList});
    } 
+
+   fetchPrices = async () =>{
+     if(this.state.firstVisit){
+       return;
+     }
+     let prices = await this.prices();
+     console.log(prices);
+     this.setState({prices})
+   }
+
+   prices = async () =>{
+     let returnData = []
+     for(let i = 0;i< this.state.favourites.length;i++){
+       try{
+         let pricesData = await cc.priceFull(this.state.favourites[i],'USD')
+         returnData.push(pricesData);
+       } catch(e){
+         console.warn('Prices for coins could not be found',e)
+       }
+     }
+     return returnData;
+   }
    addCoin = (key) =>{
      let favourites = [...this.state.favourites]
      if(favourites.length< MAX_FAVOURITES){
@@ -63,7 +86,9 @@ class AppProvider extends Component {
    this.setState({
      firstVisit:false,
      page:'dashboard',
-    });
+     prices:null
+     //callback will run after the state is set
+    },()=>{this.fetchPrices()});
     localStorage.setItem('cryptoViz',JSON.stringify({
       favourites:this.state.favourites
     }));
