@@ -18,8 +18,7 @@ class AppProvider extends Component {
       isInFavourites:this.isInFavourites,
       isEmpty:true,
       confirmFavourites:this.confirmFavourites,
-
-
+      setFilteredCoins:this.setFilteredCoins,
     }
   }
   componentDidMount=()=>{
@@ -78,7 +77,10 @@ class AppProvider extends Component {
     let {favourites} = cryptoVizData;
     return {favourites};
   }
+
   setPage = page => this.setState({page});
+
+  setFilteredCoins = (filteredCoins) => this.setState({filteredCoins})
   render(){
     return(
       <AppContext.Provider value = {this.state}>
