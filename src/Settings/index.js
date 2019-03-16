@@ -5,6 +5,7 @@ import ByeMessage from './ByeMessage';
 import ConfirmButton from './ConfirmButton';
 import CoinGrid from './CoinGrid';
 import Page from '../Shared/Page';
+import Search from './Search';
 
 
 export default function() {
@@ -14,6 +15,8 @@ export default function() {
       <br/>
       <CoinGrid topSection/>
       <ConfirmButton/>
+      <Search/>
+      <br/>
       <CoinGrid/>
       <ByeMessage/>
     </Page>
