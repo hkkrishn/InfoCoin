@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import cc from 'cryptocompare';
 import _ from 'lodash'; 
+import moment from 'moment'
+
 
 // Limit of Favourite currencies a user can pick
  const MAX_FAVOURITES = 10;
+ const TIME_UNITS = 10;
 export const AppContext = React.createContext();
 class AppProvider extends Component {
   constructor(props){
     super(props)
     this.state = {
+      timeInterval:'months',
       page:'dashboard',
-      favourites:[],
+      favourites:['BTC', 'ETH', 'XMR', 'DOGE'],
       ...this.savedSettings(), //The result of this function is spread the other properties as well
       setPage:this.setPage,
       addCoin:this.addCoin,
@@ -25,6 +29,7 @@ class AppProvider extends Component {
   componentDidMount=()=>{
     this.fetchCoins();
     this.fetchPrices();
+    this.fetchHistorical();
   }
    fetchCoins = async () =>{
      let coinList = (await cc.coinList()).Data;
@@ -40,6 +45,28 @@ class AppProvider extends Component {
      this.setState({prices})
    }
 
+   fetchHistorical = async () =>{
+     if(this.state.firstVisit){
+       return;
+     }
+
+     let results = await this.historical();
+     console.log(results);
+     let historical = [
+       {
+         name:this.state.currentFavourite,
+         data:results.map((ticker,index) => [
+            moment().subtract({[this.state.timeInterval]: TIME_UNITS - index}).valueOf(),
+            ticker.USD
+         ]),
+       }
+     ];
+     this.setState({historical});
+
+   }
+
+   
+
    prices = async () =>{
      let returnData = []
      for(let i = 0;i< this.state.favourites.length;i++){
@@ -51,6 +78,20 @@ class AppProvider extends Component {
        }
      }
      return returnData;
+   }
+
+   historical = () =>{
+     let promises = [];
+     for(let units  = TIME_UNITS;units>0;units--){
+       promises.push(cc.priceHistorical(
+         this.state.currentFavourite,
+         ['USD'],
+         moment().subtract({months:units}).toDate()
+       ))
+     }
+     //returns after all promises are fetched;
+     return Promise.all(promises);
+     
    }
    addCoin = (key) =>{
      let favourites = [...this.state.favourites]
@@ -89,9 +130,14 @@ class AppProvider extends Component {
      firstVisit:false,
      page:'dashboard',
      prices:null,
+     historical:null,
      currentFavourite,
      //callback will run after the state is set
-    },()=>{this.fetchPrices()});
+    },()=>{
+      this.fetchPrices();
+      this.fetchHistorical();
+    
+    });
     localStorage.setItem('cryptoViz',JSON.stringify({
       favourites:this.state.favourites,
       currentFavourite,
@@ -99,8 +145,9 @@ class AppProvider extends Component {
   }
   setCurrentFavourite = (sym) =>{
     this.setState({
-      currentFavourite:sym
-    });
+      currentFavourite:sym,
+      historical:null
+    },this.fetchHistorical);
     localStorage.setItem('cryptoViz',JSON.stringify({...JSON.parse(localStorage.getItem('cryptoViz')),currentFavourite:sym}))
   }
   savedSettings=()=>{

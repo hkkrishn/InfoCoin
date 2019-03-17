@@ -1,4 +1,4 @@
-export default function (){
+export default function (historical){
   return {
   
     title: {
@@ -12,6 +12,7 @@ export default function (){
         text: 'Price'
       }
     },
+    xAxis:{type:'datetime'},
     legend: {
       layout: 'vertical',
       align: 'right',
@@ -27,10 +28,7 @@ export default function (){
       }
     },
   
-    series: [{
-      name: 'Installation',
-      data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-    }],
+    series: historical,
   
     responsive: {
       rules: [{
