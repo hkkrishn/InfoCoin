@@ -22,6 +22,8 @@ const ChartGrid = styled.div`
 
 export default function() {
   return <Page name = 'dashboard'>
+      <div>If want to view data of other cryptocurrencies select them as your favourites in Settings</div>
+      <div>If no favourite is selected Bitcoin is chosen by default</div>
       <PriceGrid/>
       <ChartGrid>
         <CoinSpotlight/>

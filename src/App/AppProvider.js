@@ -25,6 +25,7 @@ class AppProvider extends Component {
       setFilteredCoins:this.setFilteredCoins,
       setCurrentFavourite:this.setCurrentFavourite,
       isEmpty:this.isEmpty,
+      changeChartSelect:this.changeChartSelect,
     }
   }
   componentDidMount=()=>{
@@ -87,7 +88,7 @@ class AppProvider extends Component {
        promises.push(cc.priceHistorical(
          this.state.currentFavourite,
          ['USD'],
-         moment().subtract({months:units}).toDate()
+         moment().subtract({[this.state.timeInterval]:units}).toDate()
        ))
      }
      //returns after all promises are fetched;
@@ -127,6 +128,9 @@ class AppProvider extends Component {
 
 
   confirmFavourites = ()=>{
+    if(this.state.favourites.length === 0){
+      this.state.favourites[0] = 'BTC'
+    }
    let currentFavourite = this.state.favourites[0];
    this.setState({
      firstVisit:false,
@@ -160,18 +164,22 @@ class AppProvider extends Component {
     let {favourites,currentFavourite} = cryptoVizData;
     return {favourites,currentFavourite};
   }
-  isEmpty = (currentFavourite) =>{
+   isEmpty(currentFavourite){
     let empty = false;
     if(currentFavourite === undefined){
       empty = true;
     }
-    
     return empty;
   }
 
   setPage = page => this.setState({page});
 
   setFilteredCoins = (filteredCoins) => this.setState({filteredCoins})
+  
+  changeChartSelect = (value) => {
+    this.setState({timeInterval:value,historical:null},this.fetchHistorical)
+  }
+  
   render(){
     return(
       <AppContext.Provider value = {this.state}>
