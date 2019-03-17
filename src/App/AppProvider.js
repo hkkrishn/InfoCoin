@@ -19,6 +19,7 @@ class AppProvider extends Component {
       isEmpty:true,
       confirmFavourites:this.confirmFavourites,
       setFilteredCoins:this.setFilteredCoins,
+      setCurrentFavourite:this.setCurrentFavourite,
     }
   }
   componentDidMount=()=>{
@@ -83,24 +84,32 @@ class AppProvider extends Component {
   //  };
 
   confirmFavourites = ()=>{
+   let currentFavourite = this.state.favourites[0];
    this.setState({
      firstVisit:false,
      page:'dashboard',
-     prices:null
+     prices:null,
+     currentFavourite,
      //callback will run after the state is set
     },()=>{this.fetchPrices()});
     localStorage.setItem('cryptoViz',JSON.stringify({
-      favourites:this.state.favourites
+      favourites:this.state.favourites,
+      currentFavourite,
     }));
   }
-
+  setCurrentFavourite = (sym) =>{
+    this.setState({
+      currentFavourite:sym
+    });
+    localStorage.setItem('cryptoViz',JSON.stringify({...JSON.parse(localStorage.getItem('cryptoViz')),currentFavourite:sym}))
+  }
   savedSettings=()=>{
     let cryptoVizData = JSON.parse(localStorage.getItem('cryptoViz'));
     if(!cryptoVizData){
       return{page:'settings',firstVisit:true}
     }
-    let {favourites} = cryptoVizData;
-    return {favourites};
+    let {favourites,currentFavourite} = cryptoVizData;
+    return {favourites,currentFavourite};
   }
 
   setPage = page => this.setState({page});
