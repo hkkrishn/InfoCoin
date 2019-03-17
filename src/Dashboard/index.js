@@ -9,6 +9,7 @@ import Search from '../Settings/Search';
 import PriceGrid from './PriceGrid';
 import CoinSpotlight from './CoinSpotlight';
 import styled from 'styled-components'
+import PriceChart from './PriceChart';
 
 
 const ChartGrid = styled.div`
@@ -23,7 +24,7 @@ export default function() {
       <PriceGrid/>
       <ChartGrid>
         <CoinSpotlight/>
-        <div>Chart Goes Here</div>
+        <PriceChart/>
       </ChartGrid>
     </Page>
   
