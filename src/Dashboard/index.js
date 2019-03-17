@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import PriceChart from './PriceChart';
 
 
+
 const ChartGrid = styled.div`
   display:grid;
   margin-top:20px;
@@ -26,6 +27,7 @@ export default function() {
         <CoinSpotlight/>
         <PriceChart/>
       </ChartGrid>
+      <ByeMessage/>
     </Page>
   
 }
