@@ -24,6 +24,7 @@ class AppProvider extends Component {
       confirmFavourites:this.confirmFavourites,
       setFilteredCoins:this.setFilteredCoins,
       setCurrentFavourite:this.setCurrentFavourite,
+      isEmpty:this.isEmpty,
     }
   }
   componentDidMount=()=>{
@@ -124,6 +125,7 @@ class AppProvider extends Component {
   //    }
   //  };
 
+
   confirmFavourites = ()=>{
    let currentFavourite = this.state.favourites[0];
    this.setState({
@@ -157,6 +159,14 @@ class AppProvider extends Component {
     }
     let {favourites,currentFavourite} = cryptoVizData;
     return {favourites,currentFavourite};
+  }
+  isEmpty = (currentFavourite) =>{
+    let empty = false;
+    if(currentFavourite === undefined){
+      empty = true;
+    }
+    
+    return empty;
   }
 
   setPage = page => this.setState({page});

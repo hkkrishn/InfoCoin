@@ -12,10 +12,12 @@ const SpotLighName = styled.h2`
 export default function() {
   return (
     <AppContext.Consumer>
-      {({currentFavourite,coinList})=>
-        <Tile> 
+      {({currentFavourite,coinList,isEmpty})=>
+        <Tile>
+        {isEmpty(currentFavourite) ? <div> Please Select Coins from Settings</div> :<div>
         <SpotLighName> {coinList[currentFavourite].CoinName} </SpotLighName> 
          <CoinImage spotlight coin = {coinList[currentFavourite]}/>
+        </div>}
         </Tile>
       }
     </AppContext.Consumer>
